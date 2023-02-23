@@ -15,15 +15,45 @@ namespace Mission07.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
-            modelBuilder.Entity("Mission07.Models.HomeControllerModel", b =>
+            modelBuilder.Entity("Mission07.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("category")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            category = "Action"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            category = "Thriller"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            category = "Romantic"
+                        });
+                });
+
+            modelBuilder.Entity("Mission07.Models.Movie", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("director")
                         .IsRequired()
@@ -52,13 +82,15 @@ namespace Mission07.Migrations
 
                     b.HasKey("MovieId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Movies");
 
                     b.HasData(
                         new
                         {
                             MovieId = 1,
-                            category = "Action",
+                            CategoryId = 1,
                             director = "Ridley Scott",
                             edited = false,
                             rating = "R",
@@ -68,7 +100,7 @@ namespace Mission07.Migrations
                         new
                         {
                             MovieId = 2,
-                            category = "Action",
+                            CategoryId = 2,
                             director = "Clint Eastwood",
                             edited = false,
                             rating = "R",
@@ -78,13 +110,22 @@ namespace Mission07.Migrations
                         new
                         {
                             MovieId = 3,
-                            category = "Action",
+                            CategoryId = 3,
                             director = "Matt Reeves",
                             edited = false,
                             rating = "PG-13",
                             title = "The Batman",
                             year = 2022
                         });
+                });
+
+            modelBuilder.Entity("Mission07.Models.Movie", b =>
+                {
+                    b.HasOne("Mission07.Models.Category", "category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

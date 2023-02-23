@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Wait List";
+}
+
+@model  List<Movie>
+
+<table class="table table-bordered">
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Category</td>
+            <td>Title</td>
+            <td>Year</td>
+            <td>Director</td>
+            <td>Rating</td>
+            <td>Edited</td>
+            <td>Lent To</td>
+            <td>Notes</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var x in Model)
+            {
+        <tr>
+            <td>@x.category.category</td>
+            <td>@x.title</td>
+            <td>@x.year</td>
+            <td>@x.director</td>
+            <td>@x.rating</td>
+            <td>@x.edited</td>
+            <td>@x.lentTo</td>
+            <td>@x.notes</td>
+
+            <td><a asp-controller="Home" asp-action="Edit" asp-route-MovieId="@x.MovieId">Edit</a></td>
+            <td><a asp-controller="Home" asp-action="Delete" asp-route-MovieId="@x.MovieId">Delete</a></td>
+        </tr>
+        }
+        </tbody>
+</table>
